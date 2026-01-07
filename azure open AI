@@ -1,0 +1,73 @@
+AZURE_OPENAI_API_KEY=FddjfbI7VClAUqJIzg68WmYyCwT3Oyj9G3YuX3KAZnLhTDnKyAAWJQQJ99BDACYeBjFXJ3w3AAAAACOGXoAT
+AZURE_OPENAI_ENDPOINT=https://wbgtipmvp8142541137.openai.azure.com/
+AZURE_API_BASE=${AZURE_OPENAI_ENDPOINT}
+AZURE_OPENAI_API_VERSION=2024-12-01-preview
+AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4.1
+AZURE_OPENAI_MODEL_NAME=
+AZURE_OPENAI_MAX_TOKENS=30000 #MAX FOR 4.1 = 1M/TPM
+AZURE_OPENAI_EMBEDDINGS_DEPLOYMENT_NAME=text-embedding-3-large
+USE_AZURE_OPENAI=true
+ 
+BLOB_SAS_URL=https://wbgeatippoc.blob.core.windows.net/techdebt?sp=racwdl&st=2025-06-12T02:48:46Z&se=2025-12-31T11:48:46Z&spr=https&sv=2024-11-04&sr=c&sig=uJ3qqetj1G60gLm%2B5gbtUlyO4vZsLmbyUpz8w8JfyQc%3D
+
+
+=============
+
+"""
+LLM factory utilities.
+ 
+This module provides functions to create language models for CrewAI,
+including support for both OpenAI and Azure OpenAI.
+"""
+ 
+import os
+from typing import Optional
+from dotenv import load_dotenv
+from crewai import LLM
+ 
+ 
+def create_llm_for_crew(model_name: Optional[str] = None) -> LLM:
+    """Create a language model instance for CrewAI based on environment configuration.
+    
+    Args:
+        model_name: Optional model name to use
+        
+    Returns:
+        Configured LLM instance for CrewAI
+    """
+    # Ensure environment variables are loaded
+    load_dotenv()
+    
+    # Check if Azure OpenAI should be used
+    use_azure = os.getenv("USE_AZURE_OPENAI", "false").lower() == "true"
+    
+    if use_azure:
+        # Get Azure OpenAI configuration directly from environment variables
+        api_key = os.getenv("AZURE_OPENAI_API_KEY")
+        endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME") or model_name or "gpt-4"
+        
+        # Format the model name for Azure - this is the key to making it work
+        azure_model = f"azure/{deployment}"
+        
+        # Create LLM with the exact configuration that works
+        return LLM(
+            model=azure_model,
+            api_key=api_key,
+            base_url=endpoint,
+            temperature=0.2  # Lowered temperature for better instruction following
+        )
+    else:
+        # Use standard OpenAI with the new CrewAI API
+        return LLM(
+            model=model_name or "gpt-4",
+            config={
+                "api_key": os.getenv("OPENAI_API_KEY"),
+                "temperature": 0.2  # Lowered temperature for better instruction following
+            }
+        )
+ 
+ 
+16:06 Meeting ended: 36m 2s 
+
+
