@@ -87,4 +87,109 @@ def create_llm_for_crew(model_name: Optional[str] = None) -> LLM:
  
 16:06 Meeting ended: 36m 2s 
 
+===================
 
+
+
+In similar way we have sequence diagram. 
+We are going ahead with demo solution using 
+
+
+
+
+________________________________________
+From: Prakash Hajela, Rajneesh (Cognizant) <Rajneesh.PrakashHajela@cognizant.com>
+Sent: Thursday, December 18, 2025 3:11 PM
+To: Popuri, Venkata (Cognizant) <Venkata.Popuri@cognizant.com>
+Cc: Natarajan, Satheeshkumar (Cognizant) <Satheeshkumar.Natarajan@cognizant.com>; Menon, Vinod (Cognizant) <Vinod.Menon@cognizant.com>
+Subject: RE: Sequence diagram flow.
+
+
+Hi Venkata,
+ 
+Prepared sequence diagram for each steps,
+ 
+ 
+ 
+Scenario 1 (DB Observability) → DBA approves mitigation path before fix is applied.
+Scenario 2 (Database Selection) → DBA approves recommended DB before provisioning.
+Scenario 3 (DML/DDL Observability) → DBA approves schema change before Runner Agent executes.
+ 
+DB Observability:
+ 
+Agent / Actor
+Role
+User
+Reports DB issue and provides context
+Chat Interface
+Collects structured inputs and communicates results
+Root Agent
+Orchestrates observability, compliance, approval, and resolution
+DB Observability Agent
+Pulls metrics/events, validates compliance, synthesizes diagnosis, monitors fix
+Observability Platform
+Supplies performance metrics and anomaly data
+Event System
+Provides correlated infra events(autonomous agent/service that executes itself when triggered by another agent)
+Governance & Compliance Agent
+Ensures observability scope meets audit/policy rules
+DBA Team
+Provides HITL approval, applies fix, confirms resolution
+ 
+2. Database Selection agent
+ 
+      
+Agent / Actor
+Role & Responsibilities
+User
+Requests a database for analytics workload, provides environment (e.g., QA) and SLA constraints (latency, cost, concurrency, storage).
+Chat Interface
+Collects workload, environment, and SLA inputs step‑by‑step, submits structured request to Root Agent, and communicates results back to the user.
+Root Agent
+Orchestrates the selection process, triggers Database Selection Agent, requests DBA approval, and routes provisioning to Database Provisioning Agent.
+Database Selection Agent (DSA)
+Central decision‑maker: validates compliance, checks infra events, evaluates SLA constraints internally, and synthesizes DB recommendation (e.g., Redshift).
+Governance & Compliance Agent (GOV)
+Validates environment rules and data sensitivity policies, ensuring compliance before DB recommendation is finalized.
+Event System (ES)
+Supplies recent infrastructure events (outages, provisioning delays) to avoid conflicts with the recommended DB. (autonomous agent/service that executes itself when triggered by another agent)
+DBA Team (HITL)
+Reviews the recommended DB choice and provides human approval before provisioning is triggered.
+Database Provisioning Agent (DPA)
+Receives the approved DB recommendation, provisions the DB instance in the specified environment (e.g., QA), and prepares it for workload execution.
+ 
+Scenario 3 - DML/DDL Observability
+ 
+Agent / Actor
+Role
+User
+Requests schema change and provides DB type + intent
+Chat Interface
+Collects inputs and communicates results
+Root Agent
+Orchestrates observability, approval, and execution
+DML/DDL Observability Agent
+Validates compliance, checks infra events, monitors execution
+Governance & Compliance Agent
+Ensures schema changes comply with audit rules
+Event System
+Supplies infra events for risk avoidance
+DBA Team (HITL)
+Provides human approval before execution
+DML/DDL Runner Agent
+Executes approved DML/DDL operations
+ 
+ 
+Thanks & Regards,
+Rajneesh Hajela
+ 
+From: Prakash Hajela, Rajneesh (Cognizant)
+Sent: 18 December 2025 11:02
+To: Popuri, Venkata (Cognizant) <Venkata.Popuri@cognizant.com>
+Cc: Natarajan, Satheeshkumar (Cognizant) <Satheeshkumar.Natarajan@cognizant.com>; Menon, Vinod (Cognizant) <Vinod.Menon@cognizant.com>
+Subject: Sequence diagram flow.
+ 
+Hi,
+ 
+Find update related documents.
+ 
