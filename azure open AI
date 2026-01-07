@@ -1,3 +1,20 @@
+
+DB observability: 
+
+n8n FieldValue to Enter
+
+Resource Name:  wbgtipmvp8142541137
+
+Deployment Namegpt-4.1
+
+API Key: FddjfbI7VClAUqJIzg68WmYyCwT3Oyj9G3YuX3KAZnLhTDnKyAAWJQQJ99BDACYeBjFXJ3w3AAAAACOGXoAT
+API Version:  2024-12-01-preview
+
+Endpoint: https://wbgtipmvp8142541137.openai.azure.com/
+
+===============================
+
+
 AZURE_OPENAI_API_KEY=FddjfbI7VClAUqJIzg68WmYyCwT3Oyj9G3YuX3KAZnLhTDnKyAAWJQQJ99BDACYeBjFXJ3w3AAAAACOGXoAT
 AZURE_OPENAI_ENDPOINT=https://wbgtipmvp8142541137.openai.azure.com/
 AZURE_API_BASE=${AZURE_OPENAI_ENDPOINT}
