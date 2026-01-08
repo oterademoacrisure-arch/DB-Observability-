@@ -1,0 +1,8 @@
+mplementation Blueprint for Scenario 3
+ 	 
+Component	Technical Implementation
+Input Interface	A simple Python script or Streamlit UI where the user pastes the DML/DDL.
+Static Check	Use Azure OpenAI to check the SQL. Prompt: "Does this SQL contain a DROP command? If so, flag as HIGH RISK."
+Dynamic Check	Observability Agent hits the Grafana API using the queries you found in the JSON.
+HITL Report	A generated summary: "SQL is safe, but Grafana shows high IOPS. Recommend waiting 2 hours."
+Execution	The Runner Agent uses psycopg2 or pyodbc with credentials from Azure Key Vault.
